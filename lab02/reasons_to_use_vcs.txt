@@ -1,3 +1,5 @@
 1. backup files to external server to prevent data loss
 2. cooperate with other people more efficiently
 3. be able to rollback to previous states of your project.
+4. can create branches to work on features isolated from other changes.
+5. can share projects with other programmers
