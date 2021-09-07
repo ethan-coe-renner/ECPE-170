@@ -1,0 +1,18 @@
+#+title: Lab 2
+#+author: Ethan Coe-Renner
+
+1. [[./lab2-fig1.png]]
+2. [[./lab2-fig2.png]]
+3. [[./lab2-fig3.png]]
+4. [[./lab2-fig4.png]]
+5. [[./lab2-fig5.png]]
+6. the - - - indicates the file in the remote
+7. the + + + indicates the local file name
+8. the lines starting with + are lines that were added since the previous commit
+9. the lines starting with - will be lines that were removed since the previous commit.
+10. A large team can use vcs to work on many different features at once in different branches and find out who wrote each part of the program.
+11. A single developer can use vcs to backup their work and rollback to previous commits/versions.
+12. Files that are text based, and were written by you (not derived from a file you wrote i.e. a binary) should be added to a git repository.
+13. binaries, backup files created by the ide/text editor, etc should not be added because they can either be created from the files already there or are unnecessary for other people.
+14. Add: adds files to be tracked. commit creates a commit with all the tracked and modified files. push pushes all unpushed commits to a given remote.
+15. git mv preserves version history while mv does not.
