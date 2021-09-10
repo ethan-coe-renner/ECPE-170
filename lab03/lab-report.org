@@ -26,7 +26,7 @@
     clean:
             rm -rf *.o factorial_program
     #+end_src
-3. when ~make -f Makefile-2~ is entered, make runs the all recipe in the Makefile-2. this calls the factorial_program recipe, which, in turn, runs the main.o, factorial.o, and output.o recipes. These recipes construct their respective files by compiling there associated source code. finally, the factorial program recipe runs and links all the object files together.
+3. when ~make -f Makefile-2~ is entered, make runs the all recipe in the Makefile-2. this calls the ~factorial_program~ recipe, which, in turn, runs the main.o, factorial.o, and output.o recipes. These recipes construct their respective files by compiling there associated source code. finally, the factorial program recipe runs and links all the object files together.
 4. 
     #+begin_src text
       # The variable CC specifies which compiler will be used.
@@ -95,5 +95,6 @@
       clean:
               rm -rf *.o $(EXECUTABLE)
     #+end_src
-6. When ~make -f Makefile-4~ is run, the all recipe is called. this calls the factorial_program recipe which calls all the object recipes. This triggers the %.o recipe which compiles all the src to object files. the factorial_program recipe then links all the object files into an executable called factorial_program.
+6. When ~make -f Makefile-4~ is run, the all recipe is called. this calls the ~factorial_program~ recipe which calls all the object recipes. This triggers the %.o recipe which compiles all the src to object files. The ~factorial_program~ recipe then links all the object files into an executable called ~factorial_program~.
 7. I would need to change the variables HEADERS, OBJECTS, EXECUTABLE, and perhaps CFLAGS.
+8. [[./lab3-fig1.png]]
