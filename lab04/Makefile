@@ -10,10 +10,10 @@ CC=gcc
 CFLAGS=-c -std=c99 -Wall -Wextra
 
 # All of the .h header files to use as dependencies
-HEADERS=ship.h
+HEADERS=ship.h board.h game.h
 
 # All of the object files to produce as intermediary work
-OBJECTS=main.o
+OBJECTS=main.o ship.o board.o game.o
 
 # The final program to build
 EXECUTABLE=frigate
