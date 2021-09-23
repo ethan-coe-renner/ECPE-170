@@ -19,6 +19,10 @@ int main()
 
   checkCoordinates(c, &board);
 
+  printBoard(board);
+
+  printCoordinate(c);
+
   return 0;
 }
 

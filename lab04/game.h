@@ -6,4 +6,5 @@ struct coordinate {
 };
 
 struct coordinate askForCoordinate(int remainingShots);
-void checkCoordinates(struct coordinate c, struct board *b);
+int checkCoordinates(struct coordinate c, struct board *b);
+void printCoordinate(struct coordinate c);

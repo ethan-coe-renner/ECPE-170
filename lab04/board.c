@@ -1,6 +1,7 @@
 #include "board.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 struct board newboard(int size) {
   struct board b;
@@ -15,14 +16,40 @@ struct board newboard(int size) {
   return b;
 };
 
+int numDigits(int n) {
+  int digits = 0;
+  while (n > 0) {
+    ++digits;
+    n = n / 10;
+  }
+  return digits;
+}
+
 void printBoard(struct board b) {
-  printf("\n    ");
+  int digits = numDigits(b.size);
+  printf("\n  ");
+  for (int i = 0; i< digits+1; i++) {
+    printf(" ");
+  }
   for(int i = 0; i < b.size; i++) {
     printf("%c ",65+i);
   }
-  printf("\n  +----------\n");
+  printf("\n");
+  for (int i = 0; i< digits+1; i++) {
+    printf(" ");
+  }
+  printf("+");
   for (int i = 0; i< b.size; i++) {
-    printf("%d |",i+1);
+    printf("--");
+  }
+  printf("\n");
+  for (int i = 0; i< b.size; i++) {
+    printf("%d",i+1);
+    for (int g = 0; g < digits-numDigits(i+1)+1; g++) {
+      printf(" ");
+      
+    }
+    printf("|");
     for (int j = 0; j < b.size; j++) {
       printf(" %c",b.matrix[i][j]);
     }
