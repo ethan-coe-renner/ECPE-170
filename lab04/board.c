@@ -75,15 +75,15 @@ int addShipsToBoard(struct board *b, struct ship ships[], int size) { //returns 
     for (int j = 0; j < ships[i].size; j++) {
       if (ships[i].vert) {
 	if (b->matrix[ships[i].row+j-1][ships[i].col-1] == '~') {
-	  /* b->matrix[ships[i].row+j-1][ships[i].col-1] = ships[i].hiddenType; */
-	  b->matrix[ships[i].row+j-1][ships[i].col-1] = ships[i].type;
+	  b->matrix[ships[i].row+j-1][ships[i].col-1] = ships[i].hiddenType;
+	  /* b->matrix[ships[i].row+j-1][ships[i].col-1] = ships[i].type; */
 	}
 	else return -1;
       }
       else {
 	if (b->matrix[ships[i].row-1][ships[i].col+j-1] == '~') {
-	  /* b->matrix[ships[i].row-1][ships[i].col+j-1] = ships[i].hiddenType; */
-	    b->matrix[ships[i].row-1][ships[i].col+j-1] = ships[i].type;
+	  b->matrix[ships[i].row-1][ships[i].col+j-1] = ships[i].hiddenType;
+	  /* b->matrix[ships[i].row-1][ships[i].col+j-1] = ships[i].type; */
 	}
 	else return -1;
       }
