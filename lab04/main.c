@@ -13,16 +13,7 @@ int main()
   struct board board = newboard(size);
   addShipsToBoard(&board, ships, 4);
 
-  printBoard(board);
-
-  struct coordinate c = askForCoordinate(5);
-
-  checkCoordinates(c, &board);
-
-  printBoard(board);
-
-  printCoordinate(c);
-
+  gameLoop(&board, ships);
   return 0;
 }
 

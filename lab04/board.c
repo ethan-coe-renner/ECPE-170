@@ -51,19 +51,32 @@ void printBoard(struct board b) {
     }
     printf("|");
     for (int j = 0; j < b.size; j++) {
-      printf(" %c",b.matrix[i][j]);
+      char c = b.matrix[i][j];
+      if (c == '~' || c == 'a' || c == 'd' || c == 'g') // c is a hidden type or ocean
+	printf(" %c",'~');
+      else
+	printf(" %c", c);
     }
     printf("\n");
   }
 }
 
-void addShipsToBoard(struct board *b, struct ship ships[], int n) {
+void addShipsToBoard(struct board *b, struct ship ships[], int n) { // n = board size
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < ships[i].size; j++) {
       if (ships[i].vert)
-	b->matrix[ships[i].row+j-1][ships[i].col-1] = ships[i].type;
+	b->matrix[ships[i].row+j-1][ships[i].col-1] = ships[i].hiddenType;
       else
-	b->matrix[ships[i].row-1][ships[i].col+j-1] = ships[i].type;
+	b->matrix[ships[i].row-1][ships[i].col+j-1] = ships[i].hiddenType;
     }
+  }
+}
+
+void makeShipSunk(struct board *b, struct ship s) {
+  for (int j = 0; j < s.size; j++) {
+    if (s.vert)
+      b->matrix[s.row+j-1][s.col-1] = s.type;
+    else
+      b->matrix[s.row-1][s.col+j-1] = s.type;
   }
 }

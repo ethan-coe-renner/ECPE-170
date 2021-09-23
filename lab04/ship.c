@@ -11,6 +11,18 @@ void assignSize(struct ship *s) {
     s[0].size = 5;
 }
 
+void assignHiddenType(struct ship *s) {
+  if (s->type == 'b') {
+    s->hiddenType = 'a';
+  }
+  else if (s-> type == 'c') {
+    s-> hiddenType = 'd';
+  }
+  else if (s-> type == 'f') {
+    s-> hiddenType = 'g';
+  }
+}
+
 struct ship * readShipsFromFile(char *file, int size) {
   FILE *ptr_file;
   char buf[1000];
@@ -31,6 +43,7 @@ struct ship * readShipsFromFile(char *file, int size) {
     newship.col = (int)buf[4] - 96;
     newship.row = (int)buf[5] - 48;
     assignSize(&newship);
+    assignHiddenType(&newship);
     ships[i] = newship;
     i++;
   }

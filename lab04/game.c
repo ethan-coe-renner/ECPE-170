@@ -5,7 +5,6 @@
 
 int stringToInt(char s[]) {
   // from https://www.quora.com/How-do-I-extract-an-integer-from-the-string-in-C?share=1
-
   if (strlen(s) == 1) {
     return (int)s[0] - '0';
   }
@@ -58,26 +57,64 @@ int coordinateInBounds(struct coordinate c, struct board b) {
   return getRow(c) >= 0 && getRow(c) < b.size && getCol(c) >= 0 && getCol(c) < b.size;
 }
 
-int checkCoordinates(struct coordinate c, struct board *b) { // returns 0 if a shot was fired, returns 1 if no shot was fired
+int checkCoordinates(struct coordinate c, struct board *b) { // returns 1 if a shot was fired, returns 0 if no shot was fired
   if (!coordinateInBounds(c, *b)) {
     printf("Coordinate out of bounds, no shot fired\n");
-    return 1;
+    return 0;
   }
   if (b->matrix[getRow(c)][getCol(c)] == '~') {
     printf("%c%d is a MISS\n", c.col, c.row);
     b->matrix[getRow(c)][getCol(c)] = 'm';
-    return 0;
+    return 1;
   }
   if (b->matrix[getRow(c)][getCol(c)] == 'm' || b->matrix[getRow(c)][getCol(c)] == 'h') {
     printf("you already fired there.\n");
-    return 1;
+    return 0;
   }
   printf("%c%d is a HIT\n", c.col, c.row);
   b->matrix[getRow(c)][getCol(c)] = 'h';
+  return 1;
+}
+
+int checkIfShipSunk(struct board b, struct ship s) {
+  int hits = 0;
+  for (int j = 0; j < s.size; j++) {
+    if (s.vert)
+      hits += b.matrix[s.row+j-1][s.col-1] == 'h';
+    else
+      hits += b.matrix[s.row-1][s.col+j-1] == 'h';
+  }
+  return hits / (float)s.size > 0.7;
+}
+
+int handleSunkShips(struct board *b, struct ship ships[]) { // returns 1 if ship sunk, 0 otherwise
+  for (int i = 0; i < 4; i++) {
+    if (checkIfShipSunk(*b, ships[i])) {
+      makeShipSunk(b, ships[i]);
+      return 1; // only one ship can be sunk on each turn, logically
+    }
+  }
   return 0;
 }
 
-
 void printCoordinate(struct coordinate c) {
   printf("row %d, col %d\n",getRow(c),getCol(c));
+}
+
+void gameLoop(struct board *b, struct ship ships[]) {
+  int shots = 15;
+  int shipsSunk = 0;
+
+  while (shots > 0 && shipsSunk < 4) {
+    printBoard(*b);
+    struct coordinate c = askForCoordinate(shots);
+    shots -= checkCoordinates(c,b);
+    shipsSunk += handleSunkShips(b, ships);
+  }
+  if (shipsSunk >= 4) {
+    printf("You Won!\n");
+  }
+  else {
+    printf("You Lost!\n");
+  }
 }
