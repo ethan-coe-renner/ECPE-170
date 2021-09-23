@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "ship.h"
 #include "board.h"
 #include "game.h"
@@ -8,10 +9,15 @@ int setup();
 int main()
 {
   int size = setup();
-  struct ship *ships = readShipsFromFile("demo_file.txt", 4);
+  /* struct ship *ships = readShipsFromFile("demo_file.txt", 4); */
 
+  struct ship * ships = generateRandomShips(size);
   struct board board = newboard(size);
-  addShipsToBoard(&board, ships, 4);
+  while (addShipsToBoard(&board,ships,4) == -1) {
+    free(ships);
+    ships = generateRandomShips(size);
+    clearBoard(&board);
+  }   
 
   gameLoop(&board, ships);
   return 0;

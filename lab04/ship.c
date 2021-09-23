@@ -1,6 +1,7 @@
 #include "ship.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void assignSize(struct ship *s) {
   if (s[0].type == 'b')
@@ -51,4 +52,31 @@ struct ship * readShipsFromFile(char *file, int size) {
 
   return ships;
 
+}
+
+struct ship * generateRandomShips(int size) {
+  char shipTypes[] = {'c','b','f','f'};
+  struct ship *ships = malloc(sizeof(struct ship) * 4);
+  // for i in range 4
+  // generate ship of type shipTypes[i]
+  // figure out if ship should be vertical or horizontal
+  // generate random number in range of possible values given the size of the matrix and length of current ship
+  srand(time(0));
+  for (int i = 0; i<4;i++) {
+    struct ship newship;
+    newship.type = shipTypes[i];
+    assignHiddenType(&newship);
+    newship.vert = rand() % 2 == 0; // randomly decide if vertical
+    assignSize(&newship);
+    if (newship.vert) {
+      newship.row = rand() % (size-newship.size + 1) + 1;
+      newship.col = rand() % size + 1;
+    }
+    else {
+      newship.row = rand() % size + 1;
+      newship.col = rand() % (size - newship.size + 1) + 1;
+    }
+    ships[i] = newship;
+  }
+  return ships;
 }

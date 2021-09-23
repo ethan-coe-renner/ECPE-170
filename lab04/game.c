@@ -102,7 +102,7 @@ void printCoordinate(struct coordinate c) {
 }
 
 void gameLoop(struct board *b, struct ship ships[]) {
-  int shots = 15;
+  int shots = 12;
   int shipsSunk = 0;
 
   while (shots > 0 && shipsSunk < 4) {
@@ -112,9 +112,9 @@ void gameLoop(struct board *b, struct ship ships[]) {
     shipsSunk += handleSunkShips(b, ships);
   }
   if (shipsSunk >= 4) {
-    printf("You Won!\n");
+    printf("\nYou sunk all the ships, you win!\n");
   }
   else {
-    printf("You Lost!\n");
+    printf("\nYou failed to sink all the ships, you lose!\n");
   }
 }
