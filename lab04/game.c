@@ -102,7 +102,7 @@ void printCoordinate(struct coordinate c) {
 }
 
 int gameLoop(struct board *b, struct ship ships[]) { // returns 1 if win, 0 otherwise
-  int shots = 2;
+  int shots = 11 + 0.1 * b->size * b->size;
   int shipsSunk = 0;
 
   while (shots > 0 && shipsSunk < 4) {

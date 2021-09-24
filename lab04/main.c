@@ -8,15 +8,19 @@
 int setup();
 char askPlayAgain();
 
-int main()
+int main(int argc, char *argv[])
 {
   int size = setup();
   int games = 0;
   int gamesWon = 0;
   char playAgain = 'y';
-  /* struct ship *ships = readShipsFromFile("demo_file.txt", 4); */
+  struct ship *ships;
+  /* printf("%s",argv[1]); */
+  if (argc == 2)
+    ships = readShipsFromFile(argv[1], 4);
+  else
+    ships = generateRandomShips(size);
 
-  struct ship * ships = generateRandomShips(size);
   struct board board = newboard(size);
   while (playAgain == 'y') {
     while (addShipsToBoard(&board,ships,4) == -1) {
@@ -31,7 +35,7 @@ int main()
   }
 
   printf("You won %d out of %d games\n", gamesWon, games);
-  printf("\nThanks for playing!");
+  printf("\nThanks for playing!\n");
   return 0;
 }
 
