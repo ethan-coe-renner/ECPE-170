@@ -5,7 +5,7 @@
 
 struct ship {
   char type;
-  char hiddenType;
+  char hiddenType; // this is a seperate character associated with the ship, it is different so that it can be hidden (print function avoids it), but unique to this ship type so that we can identify overlap
   int size;
   int row;
   int col;

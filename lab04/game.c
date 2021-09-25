@@ -1,3 +1,9 @@
+/*
+  Frigate Game
+  Ethan Coe-Renner
+  e_coerenner@u.pacific.edu
+*/
+
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -45,15 +51,15 @@ struct coordinate askForCoordinate(int remainingShots) {
 }
 
 
-int getRow(struct coordinate c) {
+int getRow(struct coordinate c) { // gets the row, but converts it from the displayed row to the array index
   return c.row-1;
 }
 
-int getCol(struct coordinate c) {
+int getCol(struct coordinate c) { // gets the column, but converts it from ascii to the array index
   return c.col - 97; // shift from ascii to index in array
 }
 
-int coordinateInBounds(struct coordinate c, struct board b) {
+int coordinateInBounds(struct coordinate c, struct board b) { // checks if the given coordinate is in bounds of the board
   return getRow(c) >= 0 && getRow(c) < b.size && getCol(c) >= 0 && getCol(c) < b.size;
 }
 
@@ -76,7 +82,7 @@ int checkCoordinates(struct coordinate c, struct board *b) { // returns 1 if a s
   return 1;
 }
 
-int checkIfShipSunk(struct board b, struct ship s) {
+int checkIfShipSunk(struct board b, struct ship s) { // returns whether or not the given ship is sunk
   int hits = 0;
   for (int j = 0; j < s.size; j++) {
     if (s.vert)
@@ -91,7 +97,7 @@ int handleSunkShips(struct board *b, struct ship ships[]) { // returns 1 if ship
   for (int i = 0; i < 4; i++) {
     if (checkIfShipSunk(*b, ships[i])) {
       makeShipSunk(b, ships[i]);
-      return 1; // only one ship can be sunk on each turn, logically
+      return 1; // only one ship can be sunk on each turn, logically; so we can just return here
     }
   }
   return 0;

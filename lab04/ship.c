@@ -1,9 +1,15 @@
+/*
+  Frigate Game
+  Ethan Coe-Renner
+  e_coerenner@u.pacific.edu
+*/
+
 #include "ship.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-void assignSize(struct ship *s) {
+void assignSize(struct ship *s) { // assigns the size of the ship based on its type
   if (s[0].type == 'b')
     s[0].size = 4;
   else if (s[0].type == 'f')
@@ -12,7 +18,7 @@ void assignSize(struct ship *s) {
     s[0].size = 5;
 }
 
-void assignHiddenType(struct ship *s) {
+void assignHiddenType(struct ship *s) { // gives the ship a hidden type based on its actual type
   if (s->type == 'b') {
     s->hiddenType = 'a';
   }
@@ -24,7 +30,7 @@ void assignHiddenType(struct ship *s) {
   }
 }
 
-struct ship * readShipsFromFile(char *file, int size) {
+struct ship * readShipsFromFile(char *file, int size) { // get an array of ships from an input file
   FILE *ptr_file;
   char buf[1000];
   ptr_file = fopen(file,"r");
@@ -54,12 +60,12 @@ struct ship * readShipsFromFile(char *file, int size) {
 
 }
 
-struct ship * generateRandomShips(int size) {
-  char shipTypes[] = {'c','b','f','f'};
+struct ship * generateRandomShips(int size) { // generates random ship placement, alternative to the demo file
+  char shipTypes[] = {'c','b','f','f'}; // the types of ships needed
   struct ship *ships = malloc(sizeof(struct ship) * 4);
   // for i in range 4
   // generate ship of type shipTypes[i]
-  // figure out if ship should be vertical or horizontal
+  // figure out if ship should be vertical or horizontal, randomly
   // generate random number in range of possible values given the size of the matrix and length of current ship
   srand(time(0));
   for (int i = 0; i<4;i++) {

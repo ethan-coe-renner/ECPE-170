@@ -1,9 +1,15 @@
+/*
+  Frigate Game
+  Ethan Coe-Renner
+  e_coerenner@u.pacific.edu
+*/
+
 #include "board.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 
-struct board newboard(int size) {
+struct board newboard(int size) { // allocates space for a new board with matrix filled with '~'
   struct board b;
   b.size = size;
   b.matrix = malloc(b.size * sizeof(char*));
@@ -16,16 +22,15 @@ struct board newboard(int size) {
   return b;
 };
 
-void clearBoard(struct board *b) {
+void clearBoard(struct board *b) { // clears the board, changing every space to a '~'
   for (int i = 0; i< b->size; i++) {
-    b->matrix[i] = malloc(b->size * sizeof(char));
     for (int j = 0; j < b->size; j++) {
       b->matrix[i][j] = '~';
     }
   }
 }
 
-int numDigits(int n) {
+int numDigits(int n) { // get the number of digits in an integer
   int digits = 0;
   while (n > 0) {
     ++digits;
@@ -34,7 +39,7 @@ int numDigits(int n) {
   return digits;
 }
 
-void printBoard(struct board b) {
+void printBoard(struct board b) { // prints the board, formatted nicely regardless of the size of the board
   int digits = numDigits(b.size);
   printf("\n  ");
   for (int i = 0; i< digits+1; i++) {
@@ -92,7 +97,7 @@ int addShipsToBoard(struct board *b, struct ship ships[], int size) { //returns 
   return 0;
 }
 
-void makeShipSunk(struct board *b, struct ship s) {
+void makeShipSunk(struct board *b, struct ship s) { // changes given ship from hidden to shown
   for (int j = 0; j < s.size; j++) {
     if (s.vert)
       b->matrix[s.row+j-1][s.col-1] = s.type;

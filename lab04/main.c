@@ -1,3 +1,9 @@
+/*
+  Frigate Game
+  Ethan Coe-Renner
+  e_coerenner@u.pacific.edu
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,20 +16,19 @@ char askPlayAgain();
 
 int main(int argc, char *argv[])
 {
-  int size = setup();
+  int size = setup(); // get board size
   int games = 0;
   int gamesWon = 0;
   char playAgain = 'y';
   struct ship *ships;
-  /* printf("%s",argv[1]); */
   if (argc == 2)
-    ships = readShipsFromFile(argv[1], 4);
+    ships = readShipsFromFile(argv[1], 4); // read ship location from file if provided
   else
     ships = generateRandomShips(size);
 
   struct board board = newboard(size);
   while (playAgain == 'y') {
-    while (addShipsToBoard(&board,ships,4) == -1) {
+    while (addShipsToBoard(&board,ships,4) == -1) { // regenerate ships if they overlap or extend outside the size of the board
       free(ships);
       ships = generateRandomShips(size);
       clearBoard(&board);
@@ -34,8 +39,10 @@ int main(int argc, char *argv[])
     playAgain = askPlayAgain();
   }
 
-  printf("You won %d out of %d games\n", gamesWon, games);
+  printf("\nYou won %d out of %d games\n", gamesWon, games);
   printf("\nThanks for playing!\n");
+  /* free(board.matrix); */
+  /* free(ships); */
   return 0;
 }
 
