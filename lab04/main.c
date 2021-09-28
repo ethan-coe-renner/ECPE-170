@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
 
   printf("\nYou won %d out of %d games\n", gamesWon, games);
   printf("\nThanks for playing!\n");
-  /* free(board.matrix); */
-  /* free(ships); */
+  free(ships);
+  freeBoard(&board);
   return 0;
 }
 

@@ -30,6 +30,13 @@ void clearBoard(struct board *b) { // clears the board, changing every space to 
   }
 }
 
+void freeBoard(struct board *b) {
+  for (int i = 0; i< b-> size; i++) {
+    free(b->matrix[i]);
+  }
+  free(b->matrix);
+}
+
 int numDigits(int n) { // get the number of digits in an integer
   int digits = 0;
   while (n > 0) {

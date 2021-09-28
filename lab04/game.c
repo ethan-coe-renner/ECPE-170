@@ -28,7 +28,7 @@ int stringToInt(char s[]) {
   return number;
 }
 
-struct coordinate askForCoordinate(int remainingShots) {
+struct coordinate askForCoordinate(int remainingShots) { // gets a coordinate from the user, parses it into a coordinate struct
   char coordinate[10];
   struct coordinate coordinates;
   printf("Enter the coordinate for your shot (%d shots remaining): ",remainingShots);
@@ -38,7 +38,7 @@ struct coordinate askForCoordinate(int remainingShots) {
   char row[10];
   while (coordinate[i] != '\n') {
     if (isalpha(coordinate[i])) {
-      coordinates.col = (int)coordinate[i];
+      coordinates.col = (int)coordinate[i]; // does mean that if multiple characters are inputted, this will use the last one
     }
     else if (isdigit(coordinate[i])){
       char r = coordinate[i];
@@ -46,7 +46,7 @@ struct coordinate askForCoordinate(int remainingShots) {
     }
     i++;
   }
-    coordinates.row = stringToInt(row);
+  coordinates.row = stringToInt(row);
   return coordinates;
 }
 
@@ -65,7 +65,7 @@ int coordinateInBounds(struct coordinate c, struct board b) { // checks if the g
 
 int checkCoordinates(struct coordinate c, struct board *b) { // returns 1 if a shot was fired, returns 0 if no shot was fired
   if (!coordinateInBounds(c, *b)) {
-    printf("Coordinate out of bounds, no shot fired\n");
+    printf("\nCoordinate out of bounds, no shot fired\n");
     return 0;
   }
   if (b->matrix[getRow(c)][getCol(c)] == '~') {

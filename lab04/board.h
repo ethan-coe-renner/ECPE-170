@@ -10,6 +10,7 @@ struct board {
 
 struct board newboard(int size);
 void clearBoard(struct board *b);
+void freeBoard(struct board *b);
 void printBoard(struct board b);
 int addShipsToBoard(struct board *b, struct ship ships[], int n);
 void makeShipSunk(struct board *b,struct ship s);
