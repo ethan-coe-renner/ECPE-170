@@ -11,7 +11,7 @@ int element;
 };
 
 // Students: Add the required functions for tree sort here...
-void inorder(struct BTreeNode *node, int *array);
+void inorder(struct BTreeNode *node, int *array, int *index);
 
 void insert_element(struct BTreeNode **node, int element);
 

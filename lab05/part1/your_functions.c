@@ -88,28 +88,64 @@ void mergeSort_merge(int array_start[], int temp[], int left, int mid, int right
 //2. Once binary tree is constructed, perform in-order traversal of the binary tree (HINT: use recursion).
 //FILL in the functions: inorder, insert_element, and tree_sort for sorting.
 
-void inorder(struct BTreeNode *node,int *array)
+void inorder(struct BTreeNode *node,int *array, int *index)
 {
-	//Recursive In-order traversal: leftchild, element, rightchild
+  //Recursive In-order traversal: leftchild, element, rightchild
+  if (node == NULL)
+    return;
 
+  inorder(node->leftnode,array,index);
+
+  array[*index] = node->element; 
+  (*index)++;
+
+  inorder(node->rightnode, array,index);
+}
+
+struct BTreeNode *createNode(int element) {
+  struct BTreeNode *newNode = malloc(sizeof(struct BTreeNode));
+  newNode->element = element;
+  newNode->leftnode = NULL;
+  newNode->rightnode = NULL;
+  return newNode;
 }
 
 void insert_element(struct BTreeNode **node, int element)
 {
-
+  if (*node == NULL) {
+    *node = createNode(element);
+  }
+  else if (element < (*node)->element) {
+    insert_element(&(*node)->leftnode,element);
+  }
+  else { // element is bigger than current node
+    insert_element(&(*node)->rightnode,element);
+  }
 }
 
 void free_btree(struct BTreeNode **node)
 {
-
+  if (*node == NULL)
+    return;
+  free_btree(&(*node)->leftnode);
+  free_btree(&(*node)->rightnode);
+  free(*node);
 }
 
 void tree_sort(int *array, int size)
 {
+  printf("Using tree sort algorithm");
+  //1. Construct the binary tree using elements in array
+  struct BTreeNode *root = NULL;
+  for (int i = 0; i< size; i++) {
+    insert_element(&root, array[i]);
+  }
 
-//1. Construct the binary tree using elements in array
-//2. Traverse the binary tree in-order and update the array
-//3. Free the binary tree
+  //2. Traverse the binary tree in-order and update the array
+  int i = 0;
+  inorder(root,array,&i);
+
+  //3. Free the binary tree
+  free_btree(&root);
 }
-
 

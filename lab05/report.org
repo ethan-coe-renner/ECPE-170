@@ -1,0 +1,23 @@
+#+title: Lab 5 report
+#+author: Ethan Coe-Renner
+
+1. 
+    |        | Bubble |  Tree |
+    |--------+--------+-------|
+    | /      |      < |       |
+    | Real   |     29 | 0.155 |
+    | User   |     29 |  0.15 |
+    | System |   0.00 |  0.00 |
+
+2. swapping/assignment takes user time, as well as comparison
+
+3. memory allocation takes kernal time
+
+4. The tree sort is the fastest.
+
+   [[./lab05-fig1.png]]
+
+5. 
+   
+
+   
