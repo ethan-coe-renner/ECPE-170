@@ -1,2 +1,4 @@
 *.tex
 *.o
+
+/lab05/part5
