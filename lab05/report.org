@@ -17,6 +17,8 @@
 
    [[./lab05-fig1.png]]
 
+   The speed difference appears to grow logorithmically. It seems that it is slightly concave down. This means that while tree sort is much better than bubble sort, the amount by which it gets better decreases with the input size. At very small input sizes, the difference in speed is very small, almost unnoticeable.
+
 5. using array size of 25000
 
    |        |         IR |
@@ -52,7 +54,8 @@
       ==26336== 
       ==26336== 100,000 bytes in 1 blocks are definitely lost in loss record 1 of 1
       ==26336==    at 0x483A971: calloc (in /nix/store/hn8gpd3jfg5dm6hk9xaqhshxc5nzvvj9-valgrind-3.16.1/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-      ==26336==    by 0x401283: main (sorting.c:42) // This line indicates the original allocation
+      ==26336==    by 0x401283: main (sorting.c:42) // This line indicates the original
+      //allocation
       ==26336== 
       ==26336== LEAK SUMMARY:
       ==26336==    definitely lost: 100,000 bytes in 1 blocks
@@ -120,11 +123,3 @@
 17. convolve occupies 76% of the execution time
 
 18. yes, valgrind shows that it lost 16,778,236 bytes in 8 blocks
-    
-    
-    
-
-   
-   
-
-   
