@@ -8,7 +8,7 @@ struct node
 };
 
 void append(struct node *n, int num);
-void insert(struct node *n, int num, int index);
+void delete(struct node *n, int index);
 void displayList();
 void free_list(struct node *n);
 

@@ -13,7 +13,7 @@ void append(struct node *n, int num) {
   current->nextptr->nextptr = NULL;
 }
 
-void insert(struct node *n, int num, int index) {
+void delete(struct node *n, int index) {
   struct node * current = n;
   while (current->nextptr != NULL && index > 1) {
     current = current->nextptr;
@@ -22,9 +22,8 @@ void insert(struct node *n, int num, int index) {
 
   struct node * temp = current->nextptr;
 
-  current->nextptr = (struct node *)malloc(sizeof(struct node));
-  current->nextptr->num = num;
-  current->nextptr->nextptr = temp;
+  current->nextptr = temp->nextptr;
+  free(temp);
 }
 
 void displayList(struct node *n) {
