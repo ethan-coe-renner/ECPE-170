@@ -8,7 +8,7 @@ CC=gcc
 #   -Wall:  Enable all warnings about lazy / dangerous C programming 
 #  You can add additional options on this same line..
 #  WARNING: NEVER REMOVE THE -c FLAG, it is essential to proper operation
-CFLAGS=-c -std=c99 -Wall -Wextra -g
+CFLAGS=-c -std=c99 -Wall -Wextra -g -O3
 
 # All of the .h header files to use as dependencies
 HEADERS=linked_list.h
