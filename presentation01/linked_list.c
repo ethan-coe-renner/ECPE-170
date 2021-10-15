@@ -28,7 +28,7 @@ void delete(struct node *n, int index) {
 
 void displayList(struct node *n) {
   struct node * current = n;
-  while (current != NULL) { // change to while (1) to cause seg fault
+  while (current != NULL) {
     /* while (1) { */
     printf("%d ", current->num);
     current = current->nextptr;
