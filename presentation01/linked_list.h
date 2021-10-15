@@ -9,7 +9,7 @@ struct node
 
 void append(struct node *n, int num);
 void delete(struct node *n, int index);
-void displayList();
+void displayList(struct node *n);
 void free_list(struct node *n);
 
 #endif
