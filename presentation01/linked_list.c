@@ -23,12 +23,13 @@ void delete(struct node *n, int index) {
   struct node * temp = current->nextptr;
 
   current->nextptr = temp->nextptr;
-  free(temp);
+  free(temp); // deletion of this line creates a memory leak
 }
 
 void displayList(struct node *n) {
   struct node * current = n;
-  while (current != NULL) {
+  while (current != NULL) { // change to while (1) to cause seg fault
+    /* while (1) { */
     printf("%d ", current->num);
     current = current->nextptr;
   }

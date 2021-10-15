@@ -17,7 +17,7 @@ int main(){
   append(l,9);
   append(l,10);
   displayList(l);
-  insert(l,20,5);
+  delete(l,5);
   displayList(l);
   free_list(l);
 }
