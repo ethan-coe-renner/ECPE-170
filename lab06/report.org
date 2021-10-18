@@ -7,7 +7,7 @@
 4. "
 5. "
 6. 602Mb
-7. The code gets the sum or product of the elements in v. The elements' type and the operation are defined in config.h. It stores the sum/product in the variable dest.
+7. The code gets the sum or product of the elements in a randomly created vector of a length given in the command line arguments. The elements' type and the operation are defined in config.h. It will call a different combine function based on the command line arguments. The combine functions will differ because they are optimized in different ways. The program stores the sum/product in the variable result. It also records the amount of time it took to combine the vector.
 8. 12080 MiB free = 12666800000 bytes, 12666800000 / 4 bytes/int = 3166700000.0 ints
 9. 3000000000 elements
 10. 
