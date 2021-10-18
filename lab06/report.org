@@ -1,0 +1,46 @@
+#+title: Lab 6 Report
+#+author: Ethan Coe-Renner
+
+1. Booting directly
+2. "
+3. "
+4. "
+5. "
+6. 602Mb
+7. The code gets the sum or product of the elements in v. The elements' type and the operation are defined in config.h. It stores the sum/product in the variable dest.
+8. 12080 MiB free = 12666800000 bytes, 12666800000 / 4 bytes/int = 3166700000.0 ints
+9. 3000000000 elements
+10. 
+     |                 | compile time (s) |
+     |-----------------+------------------|
+     | /               | <                |
+     | no optimization |             0.41 |
+     | -O1             |             0.39 |
+     | -O2             |             0.47 |
+     | -O3             |             0.58 |
+11. 
+    
+     |                 | runtime |
+     |-----------------+---------|
+     | /               |       < |
+     | no optimization |    37.3 |
+     | -O1             |  22.028 |
+     | -O2             |   19.63 |
+     | -O3             |   12.72 |
+12. 
+    | Configuration | Vector size (elements) | vector size (MB) | time for integer add | time for integer multiply | time for fp add | time for fp multiply |
+    |---------------+------------------------+------------------+----------------------+---------------------------+-----------------+----------------------|
+    | /             |                      < |                  |                      |                           |                 |                      |
+    | combine1      |             3000000000 |            11444 |               12.595 |                    12.858 |          12.962 |               12.745 |
+    | combine2      |             3000000000 |            11444 |                7.856 |                     7.917 |          11.550 |               11.570 |
+    | combine3      |             3000000000 |            11444 |                2.234 |                     4.016 |           5.240 |                5.234 |
+    | combine4      |             3000000000 |            11444 |                1.589 |                     3.966 |           5.085 |                5.085 |
+    | combine5x2    |             3000000000 |            11444 |                1.016 |                     2.855 |           5.085 |                5.082 |
+    | combine5x3    |             3000000000 |            11444 |                1.043 |                     1.413 |           5.079 |                5.080 |
+    | combine6      |             3000000000 |            11444 |                0.972 |                     2.856 |           5.086 |                5.085 |
+13.
+    [[./timechart.png]]
+
+    [[./speedupchart.png]]
+    
+    

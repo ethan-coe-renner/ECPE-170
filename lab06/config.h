@@ -3,7 +3,7 @@
 
 // Choose mathematical operation for combiner function: 
 // PROD or SUM
-#define PROD
+#define SUM
 
 // Choose datatype for vector elements:
 // FLOAT, DOUBLE, INT, LONG, CHAR

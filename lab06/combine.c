@@ -38,6 +38,17 @@ void combine2(vec_ptr v, data_t *dest)
 
   // XXX - STUDENT CODE GOES HERE - XXX
 
+  long int i;
+  long int len = vec_length(v);
+
+  *dest = IDENT;
+
+  for(i=0; i < len; i++)
+    {
+      data_t val;
+      get_vec_element(v, i, &val);
+      *dest = *dest OP val;
+    }
 }
 
 
@@ -54,6 +65,18 @@ void combine3(vec_ptr v, data_t *dest)
 
   // XXX - STUDENT CODE GOES HERE - XXX
 
+  long int i;
+  long int len = vec_length(v);
+
+  *dest = IDENT;
+
+  for(i=0; i < len; i++)
+    {
+      data_t val;
+      val = v->data[i];
+	
+      *dest = *dest OP val;
+    }
 }
 
 
@@ -71,6 +94,20 @@ void combine4(vec_ptr v, data_t *dest)
 
   // XXX - STUDENT CODE GOES HERE - XXX
 
+  long int i;
+  long int len = vec_length(v);
+  data_t combination = 1;
+
+  *dest = IDENT;
+
+  for(i=0; i < len; i++)
+    {
+      data_t val;
+      val = v->data[i];
+	
+      combination = combination OP val;
+    }
+  *dest = combination;
 }
 
 
@@ -82,6 +119,23 @@ void combine5x2(vec_ptr v, data_t *dest)
   printf("Added optimization: Loop unrolling x2\n");
 
   // XXX - STUDENT CODE GOES HERE - XXX
+  long int i;
+  long int len = vec_length(v);
+  data_t combination = 1;
+
+  *dest = IDENT;
+
+  for(i=0; i < len; i+=2)
+    {
+      data_t val;
+      data_t val1;
+      val = v->data[i];
+      val1 = v->data[i+1];
+	
+      combination = combination OP val;
+      combination = combination OP val1;
+    }
+  *dest = combination;
 
 }
 
@@ -93,7 +147,26 @@ void combine5x3(vec_ptr v, data_t *dest)
   printf("Added optimization: Loop unrolling x3\n");
 
   // XXX - STUDENT CODE GOES HERE - XXX
+  long int i;
+  long int len = vec_length(v);
+  data_t combination = 1;
 
+  *dest = IDENT;
+
+  for(i=0; i < len; i+=3)
+    {
+      data_t val;
+      data_t val1;
+      data_t val2;
+      val = v->data[i];
+      val1 = v->data[i+1];
+      val2 = v->data[i+2];
+	
+      combination = combination OP val;
+      combination = combination OP val1;
+      combination = combination OP val2;
+    }
+  *dest = combination;
 }
 
 
@@ -105,4 +178,31 @@ void combine6(vec_ptr v, data_t *dest)
 
   // XXX - STUDENT CODE GOES HERE - XXX
 
+  long int i;
+  long int len = vec_length(v);
+  data_t combination = 1;
+
+  *dest = IDENT;
+
+  for(i=0; i < len/2; i+=2)
+    {
+      data_t val;
+      data_t val1;
+      val = v->data[i];
+      val1 = v->data[i+1];
+	
+      combination = combination OP val;
+      combination = combination OP val1;
+    }
+  for(i=len/2; i < len; i+=2)
+    {
+      data_t val;
+      data_t val1;
+      val = v->data[i];
+      val1 = v->data[i+1];
+	
+      combination = combination OP val;
+      combination = combination OP val1;
+    }
+  *dest = combination;
 }
