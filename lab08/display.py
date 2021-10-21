@@ -80,7 +80,6 @@ print("Preparing to download object from http://" + host + path + filename)
 # *****************************
 
 urlRequest = f"GET {path}{filename} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
-print()
 
 print(urlRequest)
 
