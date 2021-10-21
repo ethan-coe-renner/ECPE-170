@@ -1,0 +1,162 @@
+#+title: Lab 8 Report
+#+author: Ethan Coe-Renner
+
+1. The first line with the ~#!~ tells the computer what interpreter to use to run the script. we have seen a similar thing on bash scripts to tell the computer to use the bash interpreter.
+2. 
+   #+begin_src text
+     netcat www.spaceref.com 80                                     
+     GET / HTTP/1.1
+     Host: www.spaceref.com
+     Connection: close
+     
+     HTTP/1.1 200 OK
+     Date: Thu, 21 Oct 2021 17:30:38 GMT
+     Server: Apache/2.2.22 (Ubuntu)
+     X-Powered-By: PHP/5.3.10-1ubuntu3.13
+     Vary: Accept-Encoding
+     Connection: close
+     Transfer-Encoding: chunked
+     Content-Type: text/html
+     
+     3250
+     <!DOCTYPE html>
+     <html lang="en">
+     <head>
+         <title>SpaceRef</title>
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   #+end_src
+3. 
+    #+begin_src text
+      netcat www.neverssl.com 80                                     
+      GET / HTTP/1.1
+      Host: www.neverssl.com
+      Connection: close
+     
+      HTTP/1.1 200 OK
+      Content-Type: text/html
+      Content-Length: 2536
+      Connection: close
+      Last-Modified: Thu, 19 Nov 2020 22:29:21 GMT
+      Accept-Ranges: bytes
+      Server: AmazonS3
+      Date: Thu, 21 Oct 2021 15:48:06 GMT
+      ETag: "e8bb9152091d61caa9d69fed8c4aebc6"
+      Vary: Accept-Encoding
+      X-Cache: Hit from cloudfront
+      Via: 1.1 b2f8f7bb31cc2fa916aba211d3a2979e.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop: SFO53-C1
+      X-Amz-Cf-Id: MKbZ6txouaRGf6MZ4ErZXMigC8VdmXSWMAKgIrL9FHse3FMMpnOxDA==
+      Age: 7290
+     
+      <html>
+          <head>
+              <title>NeverSSL - helping you get online</title>
+     
+              <style>
+              body {
+                   font-family: Montserrat, helvetica, arial, sans-serif;
+                   font-size: 16x;
+                   color: #444444;
+                   margin: 0;
+              }
+              h2 {
+                  font-weight: 700;
+                  font-size: 1.6em;
+                  margin-top: 30px;
+              }
+              p {
+                  line-height: 1.6em;
+              }
+              .container {
+                  max-width: 650px;
+                  margin: 20px auto 20px auto;
+                  padding-left: 15px;
+                  padding-right: 15px
+              }
+              .header {
+                  background-color: #42C0FD;
+                  color: #FFFFFF;
+                  padding: 10px 0 10px 0;
+                  font-size: 2.2em;
+              }
+              <!-- CSS from Mark Webster https://gist.github.com/markcwebster/9bdf30655cdd5279bad13993ac87c85d -->
+              </style>
+          </head>
+          <body>
+     
+          <div class="header">
+              <div class="container">
+              <h1>NeverSSL</h1>
+              </div>
+          </div>
+     
+          <div class="content">
+          <div class="container">
+     
+          <h2>What?</h2>
+          <p>This website is for when you try to open Facebook, Google, Amazon, etc
+          on a wifi network, and nothing happens. Type "http://neverssl.com"
+          into your browser's url bar, and you'll be able to log on.</p>
+    #+end_src
+4. 
+    #+begin_src text
+      netcat www.spaceref.com 80                                   
+      GET /img/logo_320red.png HTTP/1.1
+      Host: www.spaceref.com
+      Connection: close
+     
+      HTTP/1.1 200 OK
+      Date: Thu, 21 Oct 2021 17:44:09 GMT
+      Server: Apache/2.2.22 (Ubuntu)
+      Last-Modified: Fri, 06 May 2016 14:21:30 GMT
+      ETag: "12434f-c74-5322d2cd8a159"
+      Accept-Ranges: bytes
+      Content-Length: 3188
+      Connection: close
+      Content-Type: image/png
+     
+      PNG
+     
+      tEXtSoftwareAdobe ImageReadyqe<
+                                     IDATxan۸Ǚ x{~{   ꜠               @      vxyBܴ
+         EJX25$c&@ @ g>899%[JwJMW0/mXeF_S*TĖ}֧TmrT&'>dЈH_Ou}}l=362v8l|Uz%ʒ.,m_7#Y۵#ږqY6J=uyc;Š;A
+              ].<IF[PܴG9~fε}%]ԱS
+                               a՘R//˗wkk
+                                        /7-
+      g4}IGN:v6
+      zmpa=]mBxU_<=*}7uE/
+      tf$YnghI1hwK}UR꽢p g4(.[i޶auU0v-61DkKPGh:FWoaB3,n&f
+     
+      m%̂L!,2  \c-Y    )Y'[ϭ'4tg)v1zZV$H9>Ӛp-_
+                                             PeB(Щ>>nGPo<d&Na{|IY'v$|VmS~|tKPNy%SB)?2
+      7 ps$Vl_H9
+      4'~HSvrZ`riϓ(rMW$K`.||!?IxgO<7;d
+      {K3kzz'^ H~,c.hn?/3-<msN^{RqZ/Hؼ?
+                                       lDNAaFcW̔ߴ-pP{Rj3NO|v!hmȘ-g,t| 6QoL#}YH}N/B9mu
+            /O
+              ~)3M>tPмॻwkl2^B|3A/?ߑo~H8K2DŐp o_4gUM=Pr!
+      D4ܴs6M6@靇_t35܏A<$H&Fi.r@:I      ٓQ
+      J8e<3n{O>20QhjDۛ P"IwC`a%_Ҡ~
+      oBq
+      4w\m}G
+            | qV5EqVd`+N8
+                         7$;T+l.moA
+                                   v{g"і0#YFK׵EDZ0qHAom%:mVz%"U|p7}ACK5CR.٪4VXL
+      zoU;GQ9*
+      odVCd-tO
+              <ܔq]svN"0g]u*}%
+      dKh&BVM_ |Ew[oJp7h
+      ""gn2m.0o?{KTd!)TRv#9f㉵s;TS7}sv@Ay;:SrZ([Jk" zN ~SZt3
+      C0u_,m.+Xx?֣#NQX}1"Pb[>,)]Wk]qW<E#J|:kD.i%1^.
+      2(1`n-QH֝        2,CZ%<BU|Mڤ
+                                 sOM<2vuvKi;K^8  *-#IC$3?5@J|^W/[G"r,@Ax;@V1/O?qp\ƉWUgy`<0j/
+                    g.$m{T)t\]ByPvGG&@`Kx
+                                        ILQ0\`.~Ku@蹝"Svbph5G;.eZ%}(j;Śfknx5T)I׹_ɦ$SL)p<l=
+                  uM\طMĮ(}N'`ls/2
+      FM*u(^:ȕ]::m)4g,<[ai       #׸=j(3iB
+          $x(vg`A
+      _4tr#7-k^mrN*Y+@NUDprN.]IA7Wu~FVޕbeͭwaoTB8CBmol-h5lf%/[1iq&S%[Zَu1mKg/<xE9yS1     `MG[ωЛTmvo<JUȕ{]ۚw&6~JL*:e.v?8ieoFY4&
+                                                  "d
+      IENDB`
+    #+end_src  
+The data is in ascii (or unicode), representing an image, therefore it will have no useful information to a human reader.
