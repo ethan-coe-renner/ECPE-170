@@ -79,6 +79,11 @@ print("Preparing to download object from http://" + host + path + filename)
 #      to the server? (otherwise, the server won't begin processing)
 # *****************************
 
+urlRequest = f"GET {path}{filename} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
+print()
+
+print(urlRequest)
+
 
 
 
@@ -92,9 +97,9 @@ print("Preparing to download object from http://" + host + path + filename)
 #      prior to transmitting it.
 # *****************************
 
-
-
-
+sock =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((host, port))
+sock.sendall(bytes(urlRequest, 'ascii'))
 
 
 # *****************************
@@ -108,7 +113,14 @@ print("Preparing to download object from http://" + host + path + filename)
 #  (6) Close the socket - finished with the network now
 # *****************************
 
+data = sock.recv(max_recv)
+d = data
+while d != b'':
+    d = sock.recv(max_recv)
+    data += d
 
+sock.close()
+# print('Received', repr(data))
 
 
 
@@ -124,6 +136,16 @@ print("Preparing to download object from http://" + host + path + filename)
 #      in the /tmp directory would be a great spot.
 # *****************************
 
+splits = data.split(b'\r\n\r\n')
+
+print(splits[0])
+saved_filename = '/tmp/ecpe170lab08img.jpg'
+
+file = open(saved_filename, 'w+b')
+
+file.write(splits[1])
+
+file.close()
 
 
 
@@ -135,4 +157,7 @@ print("Preparing to download object from http://" + host + path + filename)
 # Assuming you downloaded the image, and placed its path/filename
 # in the variable 'saved_filename', use the 'eog' utility to 
 # display the image on screen
-call(["eog", saved_filename])
+
+
+#TODO: uncomment this line at end
+call(["feh", saved_filename])
