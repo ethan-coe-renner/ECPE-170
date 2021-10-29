@@ -84,8 +84,6 @@ urlRequest = f"GET {path}{filename} HTTP/1.1\r\nHost: {host}\r\nConnection: clos
 print(urlRequest)
 
 
-
-
 # *****************************
 # STUDENT WORK: 
 #  (2) Create a TCP socket (SOCK_STREAM)
@@ -119,10 +117,6 @@ while d != b'':
     data += d
 
 sock.close()
-# print('Received', repr(data))
-
-
-
 
 
 # *****************************
@@ -147,8 +141,6 @@ file.write(splits[1])
 file.close()
 
 
-
-
 # *****************************
 # END OF STUDENT WORK
 # *****************************
@@ -157,6 +149,4 @@ file.close()
 # in the variable 'saved_filename', use the 'eog' utility to 
 # display the image on screen
 
-
-#TODO: uncomment this line at end
 call(["feh", saved_filename])
