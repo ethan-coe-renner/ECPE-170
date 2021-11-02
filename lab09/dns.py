@@ -14,7 +14,7 @@
 #    to produce that optional, more modern header)
 
 
-from dns_tools import dns  # Custom module for boilerplate code
+from dns_tools import dns, dns_header_bitfields  # Custom module for boilerplate code
 
 import argparse
 import ctypes
@@ -50,11 +50,52 @@ def main():
     # STUDENT TO-DO
     # ---------
 
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
 
     # Generate DNS request message
     # ---------
     # STUDENT TO-DO
     # ---------
+
+    message = bytearray()
+    message += struct.pack("!H",random.randint(0,65535)) # MessageID
+
+
+    flgs = dns_header_bitfields()
+    flgs.qr = 0
+    flgs.opcode = 0
+    flgs.aa = 0
+    flgs.tc = 0
+    flgs.rd = 1
+    flgs.ra = 0
+    flgs.reserved = 0
+    flgs.rcode = 0
+
+    message += bytes(flgs)
+
+    message += struct.pack("!H",1) # QDCount
+    message += struct.pack("!H",0) # ANCount
+    message += struct.pack("!H",0) # NSCount
+    message += struct.pack("!H",0) # ARCount
+
+    # Name
+    names = qname.split('.')
+    for i in names:
+        message += struct.pack("!B", len(i))
+        message += i.encode()
+
+    message += struct.pack("!B", 0)
+
+    # QType
+    if qtype == "A":
+        message += struct.pack("!H",1)
+    else:
+        message += struct.pack("!H",28)
+
+    message += struct.pack("!H",1) # QClass
+
+    print(message)
 
 
     # Send request message to server
@@ -63,6 +104,8 @@ def main():
     # STUDENT TO-DO
     # ---------
 
+    bytes_sent = s.sendto(message, server_address)
+
 
     # Receive message from server
     # (Tip: use recvfrom() function for UDP)
@@ -70,11 +113,16 @@ def main():
     # STUDENT TO-DO
     # ---------
 
+    max_bytes = 4096
+    (raw_bytes, src_addr) = s.recvfrom(max_bytes)
+
 
     # Close socket
     # ---------
     # STUDENT TO-DO
     # ---------
+
+    s.close()
 
 
     # Decode DNS message and display to screen
@@ -83,3 +131,5 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
