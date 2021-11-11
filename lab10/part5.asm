@@ -53,6 +53,9 @@ main:
 	j end
 
 	end:
+
+	sw $s0 foundaddress
+
 	li	$v0,10		# exit
 	syscall
 
@@ -67,3 +70,4 @@ msgnotfound:	.asciiz "e not found"
 
 buffer: .space 256
 
+foundaddress: .word 1
