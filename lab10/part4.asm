@@ -10,32 +10,47 @@
 # The label 'main' represents the starting point
 main:
 
-	addi $s0, $zero, 12 # C=12
+	addi $s2, $zero, 12 # C=12
 
-	addi $t0, $zero, 0 # i=0
-	la $s1, arraya # s1 = &A[5]
-	la $s2, arrayb # s2 = &B[]
+	la $s0, arraya # s0 = &A[5]
+	la $s1, arrayb # s1 = &B[]
 
-	for: bge $t0, 5, endfor
-	     lw $t2, 0($s2) # t2 = arrayb[i]
+	addi $s3, $zero, 0 # i=0
 
-	     add $t3, $t2, $s0 # A[i] = B[i] + C
+	for: beq $s3, 5, endfor
+	     add $t0, $s3, $s3 #2i
+	     add $t0, $t0, $t0 # 4i
 
-	     sw $t1, 0($s1) # t1 = arraya[i]
+	     add $t1, $s1, $t0 # array B + i
 
-	     add $s2, $s2, 4 # i++
-	     add $s1, $s1, 4 # i++
+	     lw $t2, 0($t1) #B[i]
+
+	     add $t2, $t2, $s2 # B[i] + C
+
+	     add $t3, $t0, $s0 # A + i
+
+	     sw $t2, 0($t3) # A[i] = B[i] + C
+
+	     addi $s3, $s3, 1 # i++
+
 	     j for
 
 	endfor:
 
-	addi $t0, $t0, -1 # i--
+	addi $s3, $s3, -1 # i--
 
-	while: blt $t0, 0, end  # while i>= 0
-	       addi $s1, $s1, -1 
-	       lw $t4, 0($s1) # A[i]
-	       add $t4, $t4, $t4
-	       sw $t4, 0($s1) # A[i] = A[i]*2
+
+	while: beq $s3, -1, end # i>=0
+	       add $t0, $s3, $s3 #2i
+	       add $t0, $t0, $t0 # 4i
+
+	       add $t1, $t0, $s0 # arraya + i
+	       lw $t2, 0($t1) # A[i]
+
+	       add $t2, $t2, $t2 # 2A[i]
+
+	       sw $t2, 0($t1) # A[i] = A[i] * 2
+	       addi $s3, $s3, -1
 	       j while
 
 	end:
