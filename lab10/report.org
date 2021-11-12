@@ -1,0 +1,49 @@
+#+title: Lab 10 Report
+#+author: Ethan Coe-Renner
+
+* Part 1
+Register panel before:
+[[./part1-1.png]]
+
+register panel after:
+[[./part1-1-2.png]]
+
+memory panel before:
+[[./part1-2-1.png]]
+
+memory panel after:
+[[./part1-2-2.png]]
+
+* Part 2
+Register panel before
+[[./part2-1-1.png]]
+
+register panel after
+[[./part2-1-2.png]]
+
+memory panel before:
+[[./part2-2-1.png]]
+
+memory panel after:
+[[./part2-2-2.png]]
+
+* Part 3
+register panel:
+[[./part3-1-2.png]]
+
+memory panel
+[[./part3-2-2.png]]
+
+* Part 4
+
+register panel:
+[[./part4-1.png]]
+
+memory panel:
+[[./part4-2.png]]
+
+* Part5
+memory panel
+
+[[./part5.png]]
+
