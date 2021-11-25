@@ -9,33 +9,28 @@ int main() {
   int rows = 5;
   int cols = 7;
   char *board = newboard(rows,cols);
-  /* introduction(); */
-  dropChar(board, 'H', 3, rows, cols);
-  dropChar(board, 'H', 3, rows, cols);
-  dropChar(board, 'H', 3, rows, cols);
-  dropChar(board, 'H', 3, rows, cols);
-  dropChar(board, 'H', 3, rows, cols);
-  printBoard(board, rows, cols);
+  int first = introduction();
+  gameLoop(board, rows, cols, first);
 }
 
 // prints introduction text and decides first player
 int introduction() {
-  printf("Welcome to Connect Four, Five in a row variant!");
-  printf("Implemented by Ethan Coe-Renner");
-  printf("Enter two positive numbers to initilize the random number generator.");
+  printf("Welcome to Connect Four, Five in a row variant!\n");
+  printf("Implemented by Ethan Coe-Renner\n");
+  printf("Enter two positive numbers to initilize the random number generator.\n");
   printf("Number 1: ");
   scanf("%d", &m_w);
   printf("Number 2: ");
   scanf("%d", &m_z);
-  printf("Human player (H)");
-  printf("Computer Player (C)");
-  printf("Coin toss... ");
+  printf("Human player (H)\n");
+  printf("Computer Player (C)\n");
+  printf("Coin toss... \n");
   int first = random_in_range(0, 1);
   if (first) {
-    printf("HUMAN goes first.");
+    printf("HUMAN goes first.\n");
   }
   else {
-    printf("COMPUTER goes first.");
+    printf("COMPUTER goes first.\n");
   }
   return first;
 }
@@ -49,25 +44,27 @@ char * newboard(int rows, int cols) {
 }
 
 void gameLoop(char board[], int rows, int cols, int first) {
-  int won = 1;
+  int won = 0;
   while (!won) {
     if (first) { // human first
-      // TODO: human turn
-      // TODO: check win
+      humanTurn(board,rows,cols);
+      won = checkWin(board, rows, cols);
       computerTurn(board, rows, cols);
-      // TODO: check win
+      won = checkWin(board, rows, cols);
     }
 
     else {
       computerTurn(board,rows, cols);
-      // TODO: check win
-      // TODO: human turn
-      // TODO: check win
-    }
+      won = checkWin(board, rows, cols);
+      humanTurn(board,rows,cols);
+       won = checkWin(board, rows, cols);
+     }
+     printBoard(board, rows, cols);
   }
 }
 
 void printBoard(char board[], int rows, int cols) {
+  printf("\n");
   for (int i = 1; i <=cols; i++) {
     printf("%d ", i);
   }
@@ -94,11 +91,15 @@ int checkWin(char board[], int rows, int cols) {
   int row = (int)board[rows*cols] - 1; // last row added
   int col = (int)board[rows*cols+1]; // last col added
 
-  return
-    checkLine(board, cols, row, col, 1,-1) ||
+  int win =     checkLine(board, cols, row, col, 1,-1) ||
     checkLine(board, cols, row, col, 1,1) ||
     checkLine(board, cols, row, col, 0,1) ||
     checkLine(board, cols, row, col, 1,0);
+
+  if (win) {
+    printf("Player %c won!\n", board[getIndex(cols, row, col)]);
+  }
+  return win;
 }
 
 // checks along a line defined by the slope drow/dcol
@@ -126,7 +127,7 @@ int checkLine(char board[], int cols, int row, int col, int drow, int dcol) {
     currow += drow;
     curcol += dcol;
   }
-  
+
   return length >= 5;
 }
   
@@ -150,18 +151,31 @@ int dropChar(char board[], char c, int col, int rows, int cols) {
   }
 
   board[curcell] = c;
-  board[rows*cols] = row; 
-  board[rows*cols+1] = col;
-    return 0;
+  board[rows*cols] = rows-row+1;
+  board[rows*cols+1] = col+1;
+  return 0;
 }
 
 void computerTurn(char board[], int rows, int cols) {
   int col = random_in_range(1, cols);
 
-  while (!dropChar(board, 'C', col, rows, cols)) {
+  while (dropChar(board, 'C', col, rows, cols)) {
     col = random_in_range(1, cols); // regenerate random col if col full
     // TODO: could get caught in loop if board full
   }
+  printf("Computer playing column %d", col+1);
+  printBoard(board, rows, cols);
+}
+
+void humanTurn(char board[], int rows, int cols) {
+  int col;
+  
+  printf("Enter a column number: ");
+  scanf("%d", &col);
+
+  dropChar(board, 'H', col-1, rows, cols);
+  printf("Human playing column %d", col);
+  printBoard(board, rows, cols);
 }
 
 

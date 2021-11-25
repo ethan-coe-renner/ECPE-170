@@ -4,6 +4,8 @@ int introduction();
 
 char * newboard(int rows, int cols);
 
+void gameLoop(char board[], int rows, int cols, int first);
+
 void printBoard(char board[], int rows, int cols);
 
 int dropChar(char board[], char c, int col, int rows, int cols);
@@ -15,6 +17,8 @@ int checkWin(char board[], int rows, int cols);
 int getIndex(int cols, int row, int col);
 
 void computerTurn(char board[], int rows, int cols);
+
+void humanTurn(char board[], int rows, int cols);
 
 uint32_t get_random();
 
