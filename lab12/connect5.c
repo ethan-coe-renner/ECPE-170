@@ -59,7 +59,6 @@ void gameLoop(char board[], int rows, int cols, int first) {
       humanTurn(board,rows,cols);
        won = checkWin(board, rows, cols);
      }
-     printBoard(board, rows, cols);
   }
 }
 
@@ -164,18 +163,17 @@ void computerTurn(char board[], int rows, int cols) {
     // TODO: could get caught in loop if board full
   }
   printf("Computer playing column %d", col+1);
-  printBoard(board, rows, cols);
 }
 
 void humanTurn(char board[], int rows, int cols) {
   int col;
+  printBoard(board, rows, cols);
   
   printf("Enter a column number: ");
   scanf("%d", &col);
 
   dropChar(board, 'H', col-1, rows, cols);
-  printf("Human playing column %d", col);
-  printBoard(board, rows, cols);
+  printf("Human playing column %d\n", col);
 }
 
 
