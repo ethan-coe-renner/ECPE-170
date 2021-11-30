@@ -4,6 +4,9 @@
 # s2: rows
 # s3: cols
 # s4: first
+# s5: lastrow
+# s6: lastcol
+
 
 # A Stub to develop assembly code using QtSPIM
 
@@ -19,7 +22,9 @@ main:
         # Exit the program by means of a syscall.
         # There are many syscalls - pick the desired one
         # by placing its code in $v0. The code for exit is "10"
-        jal introduction
+        #jal introduction
+	addi $s3, $zero, 7
+	jal printBoard
 
         li          $v0, 10             # Sets $v0 to "10" to select exit syscall
         syscall                         # Exit
@@ -53,7 +58,13 @@ introduction:
 
         li          $a0, 0
         li          $a1, 1
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
         jal         randrange
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
         move        $s4, $v0            # random num in range 0,1
 
         beq         $s4, 0, compFirst
@@ -61,15 +72,54 @@ introduction:
         li          $v0, 4              # print string
         la          $a0, humanFirstMessage
         syscall                         # print message that human is first
+	jr $ra
 
 compFirst:
         li          $v0, 4              # print string
         la          $a0, computerFirstMessage
         syscall                         # print message that human is first
-#### End introduction
-        
 
-        
+	jr $ra
+#### End introduction
+
+# FUNCTION printBoard()
+# prints the board
+printBoard:
+        li          $v0, 4              # print string
+        la          $a0, boardHeader
+        syscall                         # print message to enter first num
+
+	addi $t0, $zero, 0 # t0 is the current index in the board
+	la $t1, board # t1 is the address in board
+
+	loopprint: beq $t0, 42, exitprint # exit when index = 42 (rows * cols)
+
+	lbu $a0, ($t1)
+        li          $v0, 11              # print string
+        syscall                         # print message to enter first num
+
+        li          $v0, 4              # print string
+        la          $a0, space
+        syscall                         # print space between characters
+
+	addu $t1, $t1, 1 # t0 = board[t1]
+	addi $t0, $t0, 1 # t0++
+
+	div $t0, $s3
+	mfhi $t2 # t2 = t0 % cols
+
+	bne $t2, 0, nonl # if modulus != 0, no newline is printed
+
+        li          $v0, 4              # print string
+        la          $a0, nl
+        syscall                         # print newline
+
+	nonl:
+	j loopprint
+
+	exitprint:
+	jr $ra
+
 
 
 getrand:
@@ -146,7 +196,11 @@ introMessage: .asciiz "Welcome to Connect Four, Five in a row variant!\nImplemen
 enterNumOne: .asciiz"Number 1: "
 enterNumTwo: .asciiz"Number 2: "
 introMessage2: .asciiz "Human player (H)\nComputer Player (C)\nCoin toss...\n"
-humanFirstMessage: .asciiz "HUMAN goes first"
-computerFirstMessage: .asciiz "COMPUTER goes first"
+humanFirstMessage: .asciiz "HUMAN goes first\n"
+computerFirstMessage: .asciiz "COMPUTER goes first\n"
 
-board: .space 42
+board: .asciiz ".........................................."
+boardHeader: .asciiz "1 2 3 4 5 6 7\n--------------\n"
+
+nl: .asciiz "\n"
+space: .asciiz " "
