@@ -3,71 +3,150 @@
 # s1: m_z
 # s2: rows
 # s3: cols
+# s4: first
 
 # A Stub to develop assembly code using QtSPIM
 
-	# Declare main as a global function
-	.globl main 
+        # Declare main as a global function
+        .globl      main
 
-	# All program code is placed after the
-	# .text assembler directive
-	.text 		
+        # All program code is placed after the
+        # .text assembler directive
+        .text
 
 # The label 'main' represents the starting point
 main:
-	# Exit the program by means of a syscall.
-	# There are many syscalls - pick the desired one
-	# by placing its code in $v0. The code for exit is "10"
+        # Exit the program by means of a syscall.
+        # There are many syscalls - pick the desired one
+        # by placing its code in $v0. The code for exit is "10"
+        jal introduction
 
-	li $v0, 10 # Sets $v0 to "10" to select exit syscall
-	syscall # Exit
-
-
-	# FUNCTIONS
-
-	#FUNCTION introduction()
-	# prints the introduction message and gets first player randomly
-
-	introduction:
-		li $v0, 4 # print string
-		la $a0, introMessage
-		syscall # print introduction
-
-		li $v0, 4 # print string
-		la $a0, enterNumOne
-		syscall # print message to enter first num
-
-		li $v0,5		# read_int syscall code = 5
-		syscall	
-		move $s0,$v0		# move result to m_w
-		
-		li $v0, 4 # print string
-		la $a0, enterNumTwo
-		syscall # print message to enter first num
-
-		li $v0,5		# read_int syscall code = 5
-		syscall	
-		move $s1,$v0		# move result to m_z
+        li          $v0, 10             # Sets $v0 to "10" to select exit syscall
+        syscall                         # Exit
 
 
+        # FUNCTIONS
 
-	# FUNCTION getUserInput() will get one integer value from the user
-	getUserInput:
-		
+        #FUNCTION introduction()
+        # prints the introduction message and gets first player randomly
+
+introduction:
+        li          $v0, 4              # print string
+        la          $a0, introMessage
+        syscall                         # print introduction
+
+        li          $v0, 4              # print string
+        la          $a0, enterNumOne
+        syscall                         # print message to enter first num
+
+        li          $v0,5               # read_int syscall code = 5
+        syscall
+        move        $s0,$v0             # move result to m_w
+
+        li          $v0, 4              # print string
+        la          $a0, enterNumTwo
+        syscall                         # print message to enter first num
+
+        li          $v0,5               # read_int syscall code = 5
+        syscall
+        move        $s1,$v0             # move result to m_z
+
+        li          $a0, 0
+        li          $a1, 1
+        jal         randrange
+        move        $s4, $v0            # random num in range 0,1
+
+        beq         $s4, 0, compFirst
+        # human first
+        li          $v0, 4              # print string
+        la          $a0, humanFirstMessage
+        syscall                         # print message that human is first
+
+compFirst:
+        li          $v0, 4              # print string
+        la          $a0, computerFirstMessage
+        syscall                         # print message that human is first
+#### End introduction
+        
+
+        
+
+
+getrand:
+                                        # m_z
+        and         $t0, $s1, 65535     # m_z & 65535
+        srl         $t1, $s1, 16        # m_z >> 16
+
+        addu        $t2, $zero, 36989
+        mul         $t0, $t0, $t2       # 36989 * m_z & 65535
+
+        addu        $s1, $t0, $t1       # m_z = 36969 * (m_z & 65535) + (m_z >> 16)
+
+                    # m_w
+
+        and         $t0, $s0, 65535     # m_w & 65535
+        srl         $t1, $s0, 16        # m_w >> 16
+
+        addu        $t2, $zero, 18000
+        mul         $t0, $t0, $t2       # 18000 * m_w & 65535
+
+        addu        $s0, $t0, $t1       # m_w = 18000 * (m_w & 65535) + (m_w >> 16)
+
+
+        sll         $t0, $s1, 16        # m_z << 16
+
+        addu        $v0, $t0, $s0       # return m_z << 16 + m_w
+
+        jr          $ra                 # exit function
+
+                    # FUNCTION: random_in_range(int low, int high)
+        # a0 = low
+        # a1 = high
+        # returns random integer between a0 and a1 in v0
+
+randrange:
+        move        $t2, $ra            # save ra to t2
+        sw          $ra, 32($sp)
+        jal         getrand
+        move        $t0, $v0            #t0 = random number
+
+        subu        $t1, $a1, $a0
+        addu        $t1, $t1, 1         # range = high -low + 1
+
+        divu        $t0, $t1            # rand num % range
+        mfhi        $t0
+
+        addu        $v0, $t0, $a0       # randnum % range + low
+        lw          $ra,32($sp)
+        jr          $ra
+
+
+# FUNCTION getIndex() takes $a0: row and $a1: col and calculates the index in the board associated with those parameters
+getIndex:
+        mul         $v0, $a0, $s3       # multiply row * cols
+
+        add         $v0, $v0, $a1       # add row * cols + col
+
+        addi $v0, $v0, -1 # subtract 1 from current
+
+        jr $ra # return with $v0 as total
+        
 
 
 
-	# All memory structures are placed after the
-	# .data assembler directive
-	.data
+        # All memory structures are placed after the
+        # .data assembler directive
+        .data
 
-	# The .word assembler directive reserves space
-	# in memory for a single 4-byte word (or multiple 4-byte words)
-	# and assigns that memory location an initial value
-	# (or a comma separated list of initial values)
-	introMessage: .asciiz "Welcome to Connect Four, Five in a row variant!\nImplemented by Ethan Coe-Renner\nEnter two positive numbers to initialize the random number generator.\n"
-	enterNumOne: .asciiz "Number 1: "
-	enterNumTwo: .asciiz "Number 2: "
-	introMessage2: .asciiz "Human player (H)\nComputer Player (C)\nCoin toss...\n"
-	humanFirstMessage: .asciiz "HUMAN goes first"
-	computerFirstMessage: .asciiz "COMPUTER goes first"
+        # The .word assembler directive reserves space
+        # in memory for a single 4-byte word (or multiple 4-byte words)
+        # and assigns that memory location an initial value
+        # (or a comma separated list of initial values)
+introMessage: .asciiz "Welcome to Connect Four, Five in a row variant!\nImplemented by Ethan Coe-Renner\nEnter two positive numbers to initialize the random number generator.\n"
+enterNumOne: .asciiz"Number 1: "
+enterNumTwo: .asciiz"Number 2: "
+introMessage2: .asciiz "Human player (H)\nComputer Player (C)\nCoin toss...\n"
+humanFirstMessage: .asciiz "HUMAN goes first"
+computerFirstMessage: .asciiz "COMPUTER goes first"
+
+board: .space 42
