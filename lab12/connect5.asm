@@ -23,7 +23,20 @@ main:
         # There are many syscalls - pick the desired one
         # by placing its code in $v0. The code for exit is "10"
         #jal introduction
-	addi $s3, $zero, 7
+	addi $s3, $zero, 7 # set cols
+	addi $s2, $zero, 6 #set rows
+	jal printBoard
+
+	li $a0, 72
+	li $a1, 2
+	jal dropChar
+
+	jal printBoard
+
+	li $a0, 72
+	li $a1, 2
+	jal dropChar
+
 	jal printBoard
 
         li          $v0, 10             # Sets $v0 to "10" to select exit syscall
@@ -95,7 +108,7 @@ printBoard:
 	loopprint: beq $t0, 42, exitprint # exit when index = 42 (rows * cols)
 
 	lbu $a0, ($t1)
-        li          $v0, 11              # print string
+        li          $v0, 11              # print char
         syscall                         # print message to enter first num
 
         li          $v0, 4              # print string
@@ -120,6 +133,50 @@ printBoard:
 	exitprint:
 	jr $ra
 
+
+# FUNCTION dropChar()
+# drops a char at a0 in column $a1
+dropChar:
+	addi $t0, $s2, -1 # rows - 1: curcell
+	mul $t0, $t0, $s3 # multiply by cols
+	add $t0, $t0, $a1 # add col
+
+	la $t1, board # t1 is the address in board
+
+	addi $t2, $zero, 0 # current row = 1
+
+	addi $t3, $zero, 46 # ascii code for '.'
+
+
+	dropwhile:
+	addu $t5, $t1, $t0 
+	lbu $t4, ($t5) # set t4 to the index at board[t0]
+	beq $t4, $t3, exitdropwhile # if board[curcell] == '.'
+	blt $t0, 0, exitdropwhile # if curcell lt 0
+	sub $t0, $t0, $s3 # curcell -= cols
+	add $t2, $t2, 1 # row++
+
+	j dropwhile
+
+	exitdropwhile:
+
+	bge $t0, 0, colnotfull
+
+	addi $v0, $zero, 1 #return 1
+	jr $ra
+
+	colnotfull:
+	addu $t1, $t1, $t0 # &board[curcell]
+	sb $a0, 0($t1) # put char in board at curcell
+
+	sub $s5, $s2, $t2 #rows-row
+	addi $s5, $s5, 1 # set s5 to last played row
+
+	addi $s6, $a1, 1 # set s6 to last played col
+
+	addi $v0, $zero, 0 #return 0
+
+	jr $ra
 
 
 getrand:
