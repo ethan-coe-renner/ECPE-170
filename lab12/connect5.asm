@@ -227,6 +227,60 @@ randrange:
         lw          $ra,32($sp)
         jr          $ra
 
+#FUNCTION checkLine()
+# checks in the direction (drow,dcol), where $a0: drow, $a1: dcol
+checkLine:
+	add $t0, $s5, $a0 # currow = row +drow
+	add $t1, $s6, $a1 # curcol = col + dcol
+	li $t2, 1 # length starts at 1
+	move $t4, $a0
+	move $t5, $a1
+
+	la $t6, board # t6 is the address in board
+
+	move $a0, $s5 #lastrow
+	move $a1, $s6 #lastcol
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         getIndex
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	move $t3, $v0 #t3 is the index of last element played
+	addu $t3, $t3, $t6 # t3 is the address of last element played
+	lbu $t3, ($t3) # t3 is the last element played
+
+	move $a0, $t0 # current cell to check col
+	move $a1, $t1 # current cell to check col
+
+	firstwhileloop:
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         getIndex
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	move $t7, $v0 #t3 is the index of current element to check
+	addu $t7, $t7, $t6 # t3 is the address of current element to check
+	lbu $t7, ($t7) # t3 is the current element to check
+
+	bne $t7, $t3, invertdelta
+
+	addi $t2,$t2,1 # length++
+	add $t0, $t0, $t4 #currow += drow
+	add $t1, $t1, $t5 #curcol += dcol
+
+	j firstwhileloop
+
+
+	invertdelta:
+	# TODO: start with line 117 in c code
+
+	
+	
+
 
 # FUNCTION getIndex() takes $a0: row and $a1: col and calculates the index in the board associated with those parameters
 getIndex:
