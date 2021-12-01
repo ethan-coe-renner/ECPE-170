@@ -31,13 +31,31 @@ main:
 	li $a1, 2
 	jal dropChar
 
-	jal printBoard
+	li $a0, 72
+	li $a1, 2
+	jal dropChar
+
+
+	li $a0, 72
+	li $a1, 2
+	jal dropChar
+
+	li $a0, 72
+	li $a1, 2
+	jal dropChar
 
 	li $a0, 72
 	li $a1, 2
 	jal dropChar
 
 	jal printBoard
+
+	li $a0, -1
+	li $a1, 0
+
+	jal checkLine
+
+	add $s7, $zero, $v0
 
         li          $v0, 10             # Sets $v0 to "10" to select exit syscall
         syscall                         # Exit
@@ -251,10 +269,10 @@ checkLine:
 	addu $t3, $t3, $t6 # t3 is the address of last element played
 	lbu $t3, ($t3) # t3 is the last element played
 
+	firstwhileloop:
+
 	move $a0, $t0 # current cell to check col
 	move $a1, $t1 # current cell to check col
-
-	firstwhileloop:
 
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
@@ -262,9 +280,9 @@ checkLine:
 	lw $ra, 0($sp)
 	addi $sp, $sp, 4
 
-	move $t7, $v0 #t3 is the index of current element to check
-	addu $t7, $t7, $t6 # t3 is the address of current element to check
-	lbu $t7, ($t7) # t3 is the current element to check
+	move $t7, $v0 #t7 is the index of current element to check
+	addu $t7, $t7, $t6 # t7 is the address of current element to check
+	lbu $t7, ($t7) # t7 is the current element to check
 
 	bne $t7, $t3, invertdelta
 
@@ -276,10 +294,40 @@ checkLine:
 
 
 	invertdelta:
-	# TODO: start with line 117 in c code
+	mul $t4, $t4, -1 # drow *= -1
+	mul $t5, $t5, -1 # dcol *= -1
 
-	
-	
+	add $t0, $s5, $t4 # currow = row +drow
+	add $t1, $s6, $t5 # curcol = col + dcol
+
+	secondwhileloop:
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         getIndex
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	move $t7, $v0 #t3 is the index of current element to check
+	addu $t7, $t7, $t6 # t3 is the address of current element to check
+	lbu $t7, ($t7) # t3 is the current element to check
+
+	bne $t7, $t3, endcheckline
+
+	addi $t2,$t2,1 # length++
+	add $t0, $t0, $t4 #currow += drow
+	add $t1, $t1, $t5 #curcol += dcol
+
+	j secondwhileloop
+
+	endcheckline:
+	bge $t2, 5, wincond
+	li $v0, 0
+	jr $ra
+
+	wincond:
+	li $v0, 1
+	jr $ra
 
 
 # FUNCTION getIndex() takes $a0: row and $a1: col and calculates the index in the board associated with those parameters
@@ -291,9 +339,6 @@ getIndex:
         addi $v0, $v0, -1 # subtract 1 from current
 
         jr $ra # return with $v0 as total
-        
-
-
 
         # All memory structures are placed after the
         # .data assembler directive
@@ -315,3 +360,4 @@ boardHeader: .asciiz "1 2 3 4 5 6 7\n--------------\n"
 
 nl: .asciiz "\n"
 space: .asciiz " "
+debug: .asciiz "\ngot here\n"
