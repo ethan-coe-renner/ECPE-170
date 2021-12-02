@@ -22,13 +22,8 @@ main:
         jal introduction
 	addi $s3, $zero, 7 # set cols
 	addi $s2, $zero, 6 #set rows
-	jal printBoard
 
-	jal computerTurn
-
-	jal humanTurn
-
-	jal printBoard
+	jal gameLoop
 
 
         # Exit the program by means of a syscall.
@@ -89,6 +84,44 @@ compFirst:
 
 	jr $ra
 #### End introduction
+
+
+
+# FUNCTION gameLoop() runs main loop for game
+gameLoop:
+	beq $s4, 0, compPlayFirst
+	humanPlayFirst:
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         humanTurn
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         computerTurn
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	j humanPlayFirst
+
+	compPlayFirst:
+	
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         computerTurn
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         humanTurn
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	j compPlayFirst
+
 
 # FUNCTION printBoard()
 # prints the board
