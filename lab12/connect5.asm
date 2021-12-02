@@ -26,9 +26,7 @@ main:
 
 	jal computerTurn
 
-	jal printBoard
-
-	jal computerTurn
+	jal humanTurn
 
 	jal printBoard
 
@@ -172,6 +170,32 @@ dropChar:
 	addi $s6, $a1, 1 # set s6 to last played col
 
 	addi $v0, $zero, 0 #return 0
+
+	jr $ra
+
+# FUNCTION humanTurn() no arguments, places a 'H' in a chosen column
+humanTurn:
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	jal printBoard
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+        li          $v0, 4              # print string
+        la          $a0, enterCol 
+        syscall                         # print to entercolumn
+
+        li          $v0,5               # read_int syscall code = 5
+        syscall
+        move        $t0,$v0             # move result to t0
+
+	li $a0, 72
+	addi $a1, $t0, -1
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	jal dropChar
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
 
 	jr $ra
 
@@ -373,6 +397,8 @@ humanFirstMessage: .asciiz "HUMAN goes first\n"
 computerFirstMessage: .asciiz "COMPUTER goes first\n"
 
 computerPlaysMessage: .asciiz "Computer playing"
+
+enterCol: .asciiz "Enter a column number: "
 
 board: .asciiz ".........................................."
 boardHeader: .asciiz "1 2 3 4 5 6 7\n--------------\n"
