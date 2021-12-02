@@ -19,44 +19,23 @@
 
 # The label 'main' represents the starting point
 main:
-        # Exit the program by means of a syscall.
-        # There are many syscalls - pick the desired one
-        # by placing its code in $v0. The code for exit is "10"
-        #jal introduction
+        jal introduction
 	addi $s3, $zero, 7 # set cols
 	addi $s2, $zero, 6 #set rows
 	jal printBoard
 
-	li $a0, 72
-	li $a1, 2
-	jal dropChar
-
-	li $a0, 72
-	li $a1, 2
-	jal dropChar
-
-
-	li $a0, 72
-	li $a1, 2
-	jal dropChar
-
-	li $a0, 72
-	li $a1, 2
-	jal dropChar
-
-	li $a0, 72
-	li $a1, 2
-	jal dropChar
+	jal computerTurn
 
 	jal printBoard
 
-	li $a0, -1
-	li $a1, 0
+	jal computerTurn
 
-	jal checkLine
+	jal printBoard
 
-	add $s7, $zero, $v0
 
+        # Exit the program by means of a syscall.
+        # There are many syscalls - pick the desired one
+        # by placing its code in $v0. The code for exit is "10"
         li          $v0, 10             # Sets $v0 to "10" to select exit syscall
         syscall                         # Exit
 
@@ -196,6 +175,44 @@ dropChar:
 
 	jr $ra
 
+
+# FUNCTION computerTurn() no arguments, places a 'C' in a random column
+computerTurn:
+        li          $a0, 0 # lower limit 0
+        move          $a1, $s3 # upper limit cols
+
+	compWhile:
+
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+        jal         randrange
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+        move        $t0, $v0            # random num in range 0, col
+
+        li          $v0, 4              # print string
+        la          $a0, computerPlaysMessage
+        syscall                         # print string
+
+	li $a0, 67 
+	move $a1, $t0
+	addi $sp, $sp, -4
+	sw $ra, 0($sp)
+	jal dropChar
+	lw $ra, 0($sp)
+	addi $sp, $sp, 4
+
+	beq $v0, 1, compWhile
+
+
+        li          $v0, 4              # print string
+        la          $a0, nl
+        syscall                         # print newline
+	
+	jr $ra
+
+	
 
 getrand:
                                         # m_z
@@ -354,6 +371,8 @@ enterNumTwo: .asciiz"Number 2: "
 introMessage2: .asciiz "Human player (H)\nComputer Player (C)\nCoin toss...\n"
 humanFirstMessage: .asciiz "HUMAN goes first\n"
 computerFirstMessage: .asciiz "COMPUTER goes first\n"
+
+computerPlaysMessage: .asciiz "Computer playing"
 
 board: .asciiz ".........................................."
 boardHeader: .asciiz "1 2 3 4 5 6 7\n--------------\n"
