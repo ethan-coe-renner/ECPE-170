@@ -6,6 +6,7 @@
 # s4: first
 # s5: lastrow
 # s6: lastcol
+# s7: turnCount
 
 
 # A Stub to develop assembly code using QtSPIM
@@ -20,8 +21,6 @@
 # The label 'main' represents the starting point
 main:
         jal introduction
-	addi $s3, $zero, 7 # set cols
-	addi $s2, $zero, 6 #set rows
 
 	jal gameLoop
 
@@ -39,6 +38,9 @@ main:
         # prints the introduction message and gets first player randomly
 
 introduction:
+	addi $s3, $zero, 7 # set cols
+	addi $s2, $zero, 6 #set rows
+
         li          $v0, 4              # print string
         la          $a0, introMessage
         syscall                         # print introduction
@@ -89,6 +91,8 @@ compFirst:
 
 # FUNCTION gameLoop() runs main loop for game
 gameLoop:
+	addi $s7, $zero, 0 # set turn to 0
+
 	beq $s4, 0, compPlayFirst
 	humanPlayFirst:
 
@@ -98,11 +102,17 @@ gameLoop:
 	lw $ra, 0($sp)
 	addi $sp, $sp, 4
 
+	addi $s7, $s7, 1 # add one to turn
+
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
         jal         computerTurn
 	lw $ra, 0($sp)
 	addi $sp, $sp, 4
+
+	addi $s7, $s7, 1 # add one to turn
+
+	beq $s7, 42, endgameloop # exit game if board full
 
 	j humanPlayFirst
 
@@ -114,13 +124,22 @@ gameLoop:
 	lw $ra, 0($sp)
 	addi $sp, $sp, 4
 
+	addi $s7, $s7, 1 # add one to turn
+
 	addi $sp, $sp, -4
 	sw $ra, 0($sp)
         jal         humanTurn
 	lw $ra, 0($sp)
 	addi $sp, $sp, 4
 
+	addi $s7, $s7, 1 # add one to turn
+
+	beq $s7, 42, endgameloop # exit game if board full
+
 	j compPlayFirst
+
+	endgameloop:
+	jr $ra
 
 
 # FUNCTION printBoard()
