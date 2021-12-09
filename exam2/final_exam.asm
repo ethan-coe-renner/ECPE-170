@@ -11,7 +11,7 @@
 main:
 	la $s0, array # array pointer in array
 	addi $s2, $zero, 4 # array size
-	add $s0, $s0, $s2 # go to end of array
+	addi $s0, $s0, 16 # go to end of array
 
 	addi $s1, $zero, 7
 
@@ -36,6 +36,7 @@ main:
 	li          $v0, 1              # print string
         move $a0, $s2
         syscall
+	j exit
 
 	notfound:
 
@@ -60,7 +61,7 @@ main:
 		lw $t0, 0($s0) # load current value from array
 		bne $t0, $s1, sizetest
 		
-		move $s2, $v0
+	#	move $s2, $v0
 
 		jr $ra
 
@@ -92,7 +93,7 @@ main:
 	# and assigns that memory location an initial value
 	# (or a comma separated list of initial values)
 	#For example:
-	array:	.word 2, 3, 5, 7, 11
+	array:	.word 2, 4, 3, 7, 11
 	foundmessage1: .asciiz "Element "
 	foundmessage2: .asciiz " found at array index "
 	notfoundmessage: .asciiz "Search key not found"
