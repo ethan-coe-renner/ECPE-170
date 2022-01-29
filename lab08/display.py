@@ -149,4 +149,4 @@ file.close()
 # in the variable 'saved_filename', use the 'eog' utility to 
 # display the image on screen
 
-call(["eog", saved_filename])
+call(["feh", saved_filename])

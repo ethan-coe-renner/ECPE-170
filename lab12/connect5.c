@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "connect5.h"
 
-int m_w;    /* must not be zero */ 
+int m_w; /* must not be zero */ 
 int m_z; /* must not be zero */
 
 int main() {
@@ -26,6 +26,7 @@ int introduction() {
   printf("Computer Player (C)\n");
   printf("Coin toss... \n");
   int first = random_in_range(0, 1);
+  printf("first: %d", first);
   if (first) {
     printf("HUMAN goes first.\n");
   }
@@ -96,6 +97,7 @@ int checkWin(char board[], int rows, int cols) {
     checkLine(board, cols, row, col, 1,0);
 
   if (win) {
+    printBoard(board, rows, cols);
     printf("Player %c won!\n", board[getIndex(cols, row, col)]);
   }
   return win;

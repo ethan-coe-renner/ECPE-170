@@ -101,6 +101,7 @@ def main():
 
 
     unpacked = struct.unpack('!bhl',raw_bytes)
+    print(unpacked)
     statcode = unpacked[1]
     summation = unpacked[2]
 
