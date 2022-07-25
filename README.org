@@ -1,3 +1,0 @@
-#+title: ECPE 170 Work
-
-This repository contains my work for ECPE 170 - Computing Systems and Networks
